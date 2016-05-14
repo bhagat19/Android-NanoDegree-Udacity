@@ -116,6 +116,7 @@ public class FetchMovie extends AsyncTask<String,Void,ArrayList<MovieItem>> {
     @Override
     protected void onPostExecute(final ArrayList<MovieItem> movieList) {
         super.onPostExecute(movieList);
+  //      movieAdapter.notifyDataSetChanged();
         if (movieList != null) {
             //    movieAdapter.clear();
             //      for(int i =0; i<movieList.size(); i++) {
@@ -126,7 +127,7 @@ public class FetchMovie extends AsyncTask<String,Void,ArrayList<MovieItem>> {
        //             mGridView = (GridView) (inflater.inflate(R.layout.fragment_view, null)).findViewById(R.id.gridView);
 
       //              movieAdapter = new MovieAdapter(mContext, movieList);
-
+      //              movieAdapter.clear();
                     movieAdapter.addAll(movieList);
       //              mGridView.setAdapter(movieAdapter);
 

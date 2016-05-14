@@ -7,13 +7,13 @@
 
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bckground_Img"
-        android:layout_weight="3"/>
+      />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,44 +29,71 @@
 
                 <ImageView
                     android:id="@+id/poster"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2.3"/>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2.7"
                     android:orientation="vertical">
                         <RatingBar
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/movie_ratings"
+                            style="?android:attr/ratingBarStyleSmall"
                             android:numStars="5"
-                            android:nestedScrollingEnabled="false" />
+                            android:stepSize="0.1"
+                            android:rating="0.0"
+                            android:nestedScrollingEnabled="false"
+                            android:layout_margin="4dp"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/movie_genre"/>
+                            android:id="@+id/movie_detail_ratings"
+                            android:layout_margin="4dp"/>
                         <TextView
                             android:layout_width="match_parent"
+                            android:layout_margin="4dp"
                             android:layout_height="wrap_content"
                             android:id="@+id/movie_releaseDate"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/title"/>
+                            android:id="@+id/title"
+                            android:textSize="@dimen/abc_text_size_medium_material"
+                            android:textColor="@color/material_blue_grey_950"
+                            android:layout_margin="4dp"/>
 
                 </LinearLayout>
 
 
         </LinearLayout>
 
-        <TextView
+       <LinearLayout
+           android:layout_height="wrap_content"
+           android:layout_width="match_parent"
+           android:orientation="vertical"
+           android:layout_marginTop="4dp"
+           android:layout_weight="4">
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="OVERVIEW"
+               android:padding="4dp"
+               android:textColor="@color/white"
+               android:textStyle="bold"
+               android:background="@color/material_blue_grey_800"
+               android:textSize="@dimen/abc_text_size_medium_material"
+               />
+            <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/movie_overview"
-            android:layout_weight="4"/>
+                android:layout_margin="4dp"
+            />
+       </LinearLayout>
 
 
     </LinearLayout>
@@ -81,11 +108,21 @@
        <TextView
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:text="TRAILERS"/>
-       <ListView
+           android:text="TRAILERS"
+           android:padding="4dp"
+           android:textColor="@color/white"
+           android:textStyle="bold"
+           android:textSize="@dimen/abc_text_size_medium_material"
+           android:background="@color/material_blue_grey_800"/>
+
+
+
+
+       <com.example.amit.popular_moviesapp.NonScrollableListView
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:id="@+id/trailers_listview"></ListView>
+           android:id="@+id/trailers_listview"
+           />
 
 
    </LinearLayout>
@@ -95,11 +132,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/movie_reviews"
         android:orientation="vertical"
+        android:layout_marginTop="4dp"
         android:layout_weight="2">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="REVIEWS"/>
+            android:text="REVIEWS"
+            android:padding="4dp"
+            android:background="@color/material_blue_grey_800"
+            android:textSize="@dimen/abc_text_size_medium_material"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

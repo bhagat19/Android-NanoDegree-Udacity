@@ -5,7 +5,9 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,7 +26,7 @@ public  class MovieFragment extends Fragment {
     private static final String SI_POS_KEY   = "SI_POS_KEY";
     private static final String SI_SORT_KEY  = "SI_SORT_KEY";
     private int mPosition = GridView.INVALID_POSITION;
-
+    String LOG_TAG = MovieFragment.class.getSimpleName();
     GridView mGridView;
    // View mRootView;
     TextView mTextView;
@@ -89,6 +91,7 @@ public  class MovieFragment extends Fragment {
     }
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
 
@@ -124,18 +127,30 @@ public  class MovieFragment extends Fragment {
     }
 
     public void onSortChanged(final String sortOrder){
+        mAdapter.clear();
         mPrevSort = mCurrentSort;
-        mCurrentSort = sortOrder;
-        new FetchMovie(mContext,mAdapter).execute(sortOrder,String.valueOf(START_PAGE));
+        mCurrentSort = Utility.getSortOrder(mContext);
+        Log.v(LOG_TAG,"sort :"+mCurrentSort);
+        new FetchMovie(mContext,mAdapter).execute(mCurrentSort,String.valueOf(START_PAGE));
        // movies = mAdapter.getAll();
+//        updateMovieFragment();
 
 
         mGridView.setOnScrollListener(new InfiniteScrollListener(4) {
+
             @Override
             public void loadMore(int page, int totalItemsCount) {
-                new FetchMovie(mContext,mAdapter).execute(sortOrder,String.valueOf(page));
+                new FetchMovie(mContext, mAdapter).execute(mCurrentSort, String.valueOf(page));
             }
         });
+    }
+
+    public void updateMovieFragment(){
+
+        mCurrentSort = Utility.getSortOrder(mContext);
+    //    if()
+
+
     }
 
     @Override

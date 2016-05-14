@@ -1,6 +1,7 @@
 package com.example.amit.popular_moviesapp;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ public class TrailerAdapter extends ArrayAdapter<TrailerItem> {
     Context context;
     int LayoutResourceId;
     ArrayList<TrailerItem> trailers;
+    String LOG_TAG = TrailerAdapter.class.getSimpleName();
 
     public TrailerAdapter(Context context, int LayoutResource, ArrayList<TrailerItem> trailers) {
         super(context, LayoutResource, trailers);
@@ -29,6 +31,8 @@ public class TrailerAdapter extends ArrayAdapter<TrailerItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
         viewHolder holder;
 
+        Log.v(LOG_TAG,"Inside Trailer :");
+
         LayoutInflater inflater = LayoutInflater.from(context);
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.trailer, parent, false);
@@ -39,7 +43,7 @@ public class TrailerAdapter extends ArrayAdapter<TrailerItem> {
         } else {
             holder = (viewHolder) convertView.getTag();
         }
-        holder.logo.setImageResource(R.drawable.bruce_lee);
+        holder.logo.setImageResource(R.drawable.youtube_icon);
         holder.link.setText(trailers.get(position).getName());
 
         return convertView;

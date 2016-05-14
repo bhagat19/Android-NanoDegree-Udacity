@@ -95,9 +95,9 @@ public class MovieAdapter extends ArrayAdapter {
             holder = (viewHolder) convertView.getTag();
         }
 
-        String posterString = movieDetails.get(R.string.movie_poster_url);
+        String posterString = movieDetails.get(context.getString(R.string.movie_poster_url));
 
-        Log.v(LOG_TAG,"Movie Title :" +movieDetails.get(R.string.movie_title));
+  //      Log.v(LOG_TAG,"Movie Title :" +movieDetails.get(R.string.movie_title));
 
         Log.v(LOG_TAG,"Poster String :" +posterString);
 
@@ -105,8 +105,8 @@ public class MovieAdapter extends ArrayAdapter {
 
             try {
                 Picasso.with(context).load(posterString).into(holder.thumbnail);
-                holder.title.setText(movieDetails.get(R.string.movie_title));
-                holder.ratings.setRating(Float.valueOf(movieDetails.get(R.string.movie_vote_average))/2);
+                holder.title.setText(movieDetails.get(context.getString(R.string.movie_title)));
+                holder.ratings.setRating(Float.valueOf(movieDetails.get(context.getString(R.string.movie_vote_average)))/2);
             }
             catch (Exception e){
                 e.printStackTrace();

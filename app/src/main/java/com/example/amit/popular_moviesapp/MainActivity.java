@@ -49,7 +49,11 @@ public class MainActivity extends AppCompatActivity implements MovieFragment.Cal
     @Override
     protected void onResume(){
         super.onResume();
+
         String sortOrder = Utility.getSortOrder(mContext);
+        Log.v(LOG_TAG,"In onResume :" +sortOrder+mSort);
+
+
         if (!sortOrder.equals(mSort)){
         MovieFragment ff = (MovieFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
         ff.onSortChanged(sortOrder);
