@@ -81,6 +81,7 @@ public class MovieAdapter extends ArrayAdapter {
         Log.v(LOG_TAG,"Inside getView");
 
         if (convertView == null) {
+            Log.v(LOG_TAG,+position +" "+convertView);
             convertView = mInflater.inflate(R.layout.grid_view, parent, false);
             holder = new viewHolder();
 

@@ -58,10 +58,10 @@ public class MovieDetailFragment extends Fragment {
     ImageButton favButton;
     TextView ratingsInput;
     TextView noReviews;
-   // Context mContext;
+    // Context mContext;
     ArrayList<TrailerItem> trailerItemArrayList = new ArrayList<>();
     ArrayList<ReviewItem> reviewItemArrayList = new ArrayList<>();
-   // Context mContext;
+    // Context mContext;
     boolean mFavoriteButtonStatus;
     View mRootView;
     Context mContext;
@@ -72,26 +72,24 @@ public class MovieDetailFragment extends Fragment {
     String mFavMsg;
 
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
 
-       mRootView = inflater.inflate(R.layout.detail_fragment, parent, false);
+        mRootView = inflater.inflate(R.layout.detail_fragment, parent, false);
         return mRootView;
 
     }
 
 
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-       mContext = getActivity();
+        mContext = getActivity();
         mInflater = LayoutInflater.from(mContext);
 
         Bundle bundle = getArguments();
 
         final String TRAILERS = mContext.getString(R.string.TRAILER);
         final String REVIEWS = mContext.getString(R.string.REVIEW);
-
 
 
         if (bundle != null) {
@@ -104,10 +102,12 @@ public class MovieDetailFragment extends Fragment {
             // new FetchTrailersAndReviews(context).execute(movieId,TRAILERS);
             // new FetchTrailersAndReviews(context).execute(movieId,REVIEWS);
             initTrailerAndReviewViews();
-            new FetchReviewsTask(mContext).execute(movieId, REVIEWS);
-            new FetchTrailersTask(mContext).execute(movieId, TRAILERS);
+
+                new FetchReviewsTask(mContext).execute(movieId, REVIEWS);
+                new FetchTrailersTask(mContext).execute(movieId, TRAILERS);
+
             mFavoriteButtonStatus = Utility.isMovieFavorite(mContext, movieId);
-            updateFavoriteButton(mRootView,mFavoriteButtonStatus);
+            updateFavoriteButton(mRootView, mFavoriteButtonStatus);
 
             //Initiating Detail Fragment views
             String posterUrl = mCurrentMovie.getMovie().get(mContext.getString(R.string.movie_poster_url));
@@ -121,30 +121,28 @@ public class MovieDetailFragment extends Fragment {
             releaseDate = (TextView) view.findViewById(R.id.movie_releaseDate);
             ratings = (RatingBar) view.findViewById(R.id.movie_ratings);
             overView = (TextView) view.findViewById(R.id.movie_overview);
-            noReviews = (TextView) (mInflater.inflate(R.layout.review,null,false)).
+            noReviews = (TextView) (mInflater.inflate(R.layout.review, null, false)).
                     findViewById(R.id.noReviews);
-  //          noReviews = (TextView) view.findViewById(R.id.noReviews);
-         //   overView.setMovementMethod(new ScrollingMovementMethod());
+            //          noReviews = (TextView) view.findViewById(R.id.noReviews);
+            //   overView.setMovementMethod(new ScrollingMovementMethod());
 
             favButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-               //     Log.v(LOG_TAG, "Favourite Button start "+mFavoriteButtonStatus);
+                    //     Log.v(LOG_TAG, "Favourite Button start "+mFavoriteButtonStatus);
                     mFavoriteButtonStatus = !mFavoriteButtonStatus;
-                    Log.v(LOG_TAG, "Favourite Button now "+mFavoriteButtonStatus);
+                    Log.v(LOG_TAG, "Favourite Button now " + mFavoriteButtonStatus);
                     updateFavoriteButton(mRootView, mFavoriteButtonStatus);
-                    Log.v(LOG_TAG,"fav msg "+mFavMsg);
+                    Log.v(LOG_TAG, "fav msg " + mFavMsg);
 
                     Toast toast = Toast.makeText(getActivity(), mFavMsg, Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.BOTTOM | Gravity.CENTER, 0, 100);
                     toast.show();
 
-                  new FetchMovieDB(mContext).execute(
-                          mCurrentMovie.getMovie(),
-                          reviewItemArrayList,
-                          trailerItemArrayList);
-
-
+                    new FetchMovieDB(mContext).execute(
+                            mCurrentMovie.getMovie(),
+                            reviewItemArrayList,
+                            trailerItemArrayList);
 
 
                 }
@@ -172,17 +170,17 @@ public class MovieDetailFragment extends Fragment {
         }
     }
 
-    public class FetchMovieDB extends AsyncTask<Object,Void,Void>{
+    public class FetchMovieDB extends AsyncTask<Object, Void, Void> {
 
-        public FetchMovieDB(Context context){
+        public FetchMovieDB(Context context) {
         }
 
         @Override
-        protected Void doInBackground(Object... params){
+        protected Void doInBackground(Object... params) {
 
-            long id = updateFavTable((HashMap<String,String>) params[0]);
-            updateTrailerTable((ArrayList < TrailerItem >) params[2], id);
-            updateReviewTable((ArrayList<ReviewItem>) params[1],id);
+            long id = updateFavTable((HashMap<String, String>) params[0]);
+            updateTrailerTable((ArrayList<TrailerItem>) params[2], id);
+            updateReviewTable((ArrayList<ReviewItem>) params[1], id);
 
             return null;
 
@@ -191,7 +189,7 @@ public class MovieDetailFragment extends Fragment {
 
     }
 
-    private long updateFavTable(HashMap<String,String> MovieMap) {
+    private long updateFavTable(HashMap<String, String> MovieMap) {
         long inserted_id = -1;
 
         String movieId = MovieMap.get(mContext.getString(R.string.movie_id));
@@ -237,16 +235,16 @@ public class MovieDetailFragment extends Fragment {
 
             return ContentUris.parseId(inserted_uri);
         }
-   //     cursor.close();
+        //     cursor.close();
     }
 
-    private void updateTrailerTable(ArrayList<TrailerItem> TrailerList,long FavId ){
-        if (TrailerList == null || TrailerList.size() == 0){
+    private void updateTrailerTable(ArrayList<TrailerItem> TrailerList, long FavId) {
+        if (TrailerList == null || TrailerList.size() == 0) {
             return;
         }
 
         Uri uri = MovieContract.TrailerEntry.CONTENT_URI;
-  //      String[] projection = {MovieContract.TrailerEntry.COLUMN_FAVORITE_RECORD_ID};
+        //      String[] projection = {MovieContract.TrailerEntry.COLUMN_FAVORITE_RECORD_ID};
         String selection = MovieContract.TrailerEntry.COLUMN_FAVORITE_RECORD_ID + " = ?";
         String[] selectionArgs = {Long.toString(FavId)};
 
@@ -262,33 +260,33 @@ public class MovieDetailFragment extends Fragment {
                     uri,
                     selection,
                     selectionArgs);
-        }else{
+        } else {
             Vector<ContentValues> trailerVector = new Vector<>(TrailerList.size());
-            for (int i =0; i<TrailerList.size(); i++){
+            for (int i = 0; i < TrailerList.size(); i++) {
                 ContentValues trailerValues = new ContentValues();
-          //      ArrayList<TrailerItem> trailerItem = TrailerList.get(i);
+                //      ArrayList<TrailerItem> trailerItem = TrailerList.get(i);
                 trailerValues.put(MovieContract.TrailerEntry.COLUMN_TRAILER_LINK,
                         TrailerList.get(i).getLink());
                 trailerValues.put(MovieContract.TrailerEntry.COLUMN_TRAILER_NAME,
                         TrailerList.get(i).getName());
-                trailerValues.put(MovieContract.TrailerEntry.COLUMN_FAVORITE_RECORD_ID,FavId);
+                trailerValues.put(MovieContract.TrailerEntry.COLUMN_FAVORITE_RECORD_ID, FavId);
 
                 trailerVector.add(trailerValues);
             }
 
-            if (trailerVector.size()>0){
+            if (trailerVector.size() > 0) {
                 ContentValues[] cVArray = new ContentValues[trailerVector.size()];
                 trailerVector.toArray(cVArray);
                 mContext.getContentResolver().bulkInsert(
-                        uri,cVArray);
+                        uri, cVArray);
             }
         }
         cursor.close();
     }
 
-    private void updateReviewTable(ArrayList<ReviewItem> ReviewList, long favId){
+    private void updateReviewTable(ArrayList<ReviewItem> ReviewList, long favId) {
 
-        if (ReviewList.size() == 0 || ReviewList == null){
+        if (ReviewList.size() == 0) {
             return;
         }
 
@@ -303,32 +301,32 @@ public class MovieDetailFragment extends Fragment {
                 selection,
                 selectionArgs,
                 null);
-        if (cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             mContext.getContentResolver().delete(
-                    uri,selection,selectionArgs);
-        }else {
+                    uri, selection, selectionArgs);
+        } else {
 
             Vector<ContentValues> reviewVector = new Vector<ContentValues>(ReviewList.size());
 
-            for (int i=0; i<ReviewList.size(); i++){
+            for (int i = 0; i < ReviewList.size(); i++) {
                 ContentValues reviewValues = new ContentValues();
                 reviewValues.put(MovieContract.ReviewEntry.COLUMN_AUTHOR_NAME,
                         ReviewList.get(i).getAuthor());
                 reviewValues.put(MovieContract.ReviewEntry.COLUMN_REVIEW_CONTENT,
                         ReviewList.get(i).getContent());
-                reviewValues.put(MovieContract.ReviewEntry.COLUMN_FAVORITE_RECORD_ID,favId);
+                reviewValues.put(MovieContract.ReviewEntry.COLUMN_FAVORITE_RECORD_ID, favId);
 
                 reviewVector.add(reviewValues);
             }
-            if (reviewVector.size()!= 0){
+            if (reviewVector.size() != 0) {
                 ContentValues[] cVReview = new ContentValues[reviewVector.size()];
                 reviewVector.toArray(cVReview);
                 mContext.getContentResolver().bulkInsert(
                         uri,
-                        cVReview);}
+                        cVReview);
+            }
         }
         cursor.close();
-
 
 
     }
@@ -345,19 +343,18 @@ public class MovieDetailFragment extends Fragment {
         }
     }
 
-        public void initTrailerAndReviewViews() {
+    public void initTrailerAndReviewViews() {
 
         ListView reviewList = (ListView) mRootView.findViewById(R.id.reviews_listView);
         ListView trailerList = (ListView) mRootView.findViewById(R.id.trailers_listview);
 
-            mReviewAdapter = new ReviewAdapter(mContext, R.layout.review, new ArrayList<ReviewItem>());
-            mTrailerAdapter = new TrailerAdapter(mContext,R.layout.trailer, new ArrayList<TrailerItem>());
-
+        mReviewAdapter = new ReviewAdapter(mContext, R.layout.review, new ArrayList<ReviewItem>());
+        mTrailerAdapter = new TrailerAdapter(mContext, R.layout.trailer, new ArrayList<TrailerItem>());
 
 
         reviewList.setAdapter(mReviewAdapter);
         trailerList.setAdapter(mTrailerAdapter);
-            //
+        //
    /*         reviewList.setOnTouchListener(new ListView.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -403,8 +400,7 @@ public class MovieDetailFragment extends Fragment {
     }
 
 
-
-    public class FetchTrailersTask extends AsyncTask<String,Void,ArrayList> {
+    public class FetchTrailersTask extends AsyncTask<String, Void, ArrayList> {
 
         Context context;
         StringBuilder builder;
@@ -413,7 +409,7 @@ public class MovieDetailFragment extends Fragment {
         String movieTrailJson;
         String identifier;
         String LOG_TAG = FetchTrailersTask.class.getSimpleName();
-    //    TrailerAdapter mTrailerAdapter;
+        //    TrailerAdapter mTrailerAdapter;
         //     ReviewAdapter mReviewAdapter;
         //    ArrayList<TrailerItem> mCurrentMovieTrailerData;
         //   ArrayList<ReviewItem> mCurrentMovieReviewData;
@@ -494,7 +490,7 @@ public class MovieDetailFragment extends Fragment {
         }
     }
 
-    public class FetchReviewsTask extends AsyncTask<String,Void,ArrayList> {
+    public class FetchReviewsTask extends AsyncTask<String, Void, ArrayList> {
 
         Context context;
         StringBuilder builder;
@@ -511,11 +507,19 @@ public class MovieDetailFragment extends Fragment {
 
         public FetchReviewsTask(Context context) {
             this.context = context;
+
         }
 
 
         @Override
         protected ArrayList doInBackground(String... params) {
+/*
+            String sortOrder = Utility.getSortOrder(context);
+            if (sortOrder.equals(context.getString(R.string.pref_sort_favourite))) {
+                if (reviewItemArrayList!= null)
+                return reviewItemArrayList;
+            }
+            */
 
 
             final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie/";
@@ -591,87 +595,86 @@ public class MovieDetailFragment extends Fragment {
             }
             */
 
-            }
-            else
+            } else
                 noReviews.setVisibility(View.VISIBLE);
 
         }
     }
 
 
+    public ArrayList getTrailersAndReviewsFromJson(Context context, String movieTrailerAndRevJson, String identifier)
+            throws JSONException {
+
+        final String PMA_RESULTS = context.getString(R.string.movie_results);
+        final String PMA_MOVIEID = context.getString(R.string.movie_id);
+
+        final String MDB_NAME = context.getString(R.string.trailer_name);
+        final String MDB_KEY = context.getString(R.string.trailer_key);
+        final String TRAILER_LINK = context.getString(R.string.trailer_link);
+
+        final String MDB_RESULTS = context.getString(R.string.review_results);
+        final String MDB_AUTHOR = context.getString(R.string.review_author);
+        final String MDB_CONTENT = context.getString(R.string.review_content);
+
+        if (identifier.equals(mContext.getString(R.string.TRAILER))) {
+            JSONObject movieTrailers = new JSONObject(movieTrailerAndRevJson);
+            JSONArray results = movieTrailers.getJSONArray(PMA_RESULTS);
+            int numTrailers = results.length();
+            ArrayList<TrailerItem> trailerList = new ArrayList<>();
+
+            String YOUTUBE_BASE_URL = "https://www.youtube.com/";
+
+            String TRAILER_ACTION = "watch";
+            String TRAILER_PARAM = "v";
+
+            for (int i = 0; i < numTrailers; i++) {
+                //  HashMap<String,String> trailerMap = new HashMap<>();
+                JSONObject trailerData = results.getJSONObject(i);
+
+                String key = trailerData.getString(MDB_KEY);
+                String name = trailerData.getString(MDB_NAME);
+
+                Uri trailerUri;
+                trailerUri = Uri.parse(YOUTUBE_BASE_URL).buildUpon()
+                        .appendEncodedPath(TRAILER_ACTION)
+                        .appendQueryParameter(TRAILER_PARAM, key)
+                        .build();
+                trailerList.add(new TrailerItem(name, key, trailerUri.toString()));
+            }
+            Log.v(LOG_TAG, "TrailerList From Method :" + trailerList);
+            return trailerList;
+        }
+        else{
+            Log.v(LOG_TAG,"Inside getReviewsMethod" +movieTrailerAndRevJson);
+
+            JSONObject movieReviews = new JSONObject(movieTrailerAndRevJson);
+            JSONArray results = movieReviews.getJSONArray(PMA_RESULTS);
+            int numReviews = results.length();
+            ArrayList reviewList = new ArrayList();
 
 
-        public ArrayList getTrailersAndReviewsFromJson(Context context,String movieTrailerAndRevJson, String identifier)
-                throws JSONException{
+            for (int i = 0; i < numReviews; i++) {
+                //  HashMap<String,String> reviewMap = new HashMap<>();
+                JSONObject reviewData = results.getJSONObject(i);
 
-            final String PMA_RESULTS = context.getString(R.string.movie_results);
-            final String PMA_MOVIEID = context.getString(R.string.movie_id);
+                String author = reviewData.getString(MDB_AUTHOR);
+                String content = reviewData.getString(MDB_CONTENT);
+                Log.v(LOG_TAG, "content :" + content);
 
-            final String MDB_NAME = context.getString(R.string.trailer_name);
-            final String MDB_KEY = context.getString(R.string.trailer_key);
-            final String TRAILER_LINK = context.getString(R.string.trailer_link);
-
-            final String MDB_RESULTS = context.getString(R.string.review_results);
-            final String MDB_AUTHOR = context.getString(R.string.review_author);
-            final String MDB_CONTENT = context.getString(R.string.review_content);
-
-            if (identifier.equals(mContext.getString(R.string.TRAILER))){
-                JSONObject movieTrailers = new JSONObject(movieTrailerAndRevJson);
-                JSONArray results = movieTrailers.getJSONArray(PMA_RESULTS);
-                int numTrailers = results.length();
-                ArrayList<TrailerItem> trailerList = new ArrayList<>();
-
-                String YOUTUBE_BASE_URL = "https://www.youtube.com/";
-
-                String TRAILER_ACTION = "watch";
-                String TRAILER_PARAM = "v";
-
-                for (int i=0; i<numTrailers; i++) {
-                    //  HashMap<String,String> trailerMap = new HashMap<>();
-                    JSONObject trailerData = results.getJSONObject(i);
-
-                    String key = trailerData.getString(MDB_KEY);
-                    String name = trailerData.getString(MDB_NAME);
-
-                    Uri trailerUri;
-                    trailerUri = Uri.parse(YOUTUBE_BASE_URL).buildUpon()
-                            .appendEncodedPath(TRAILER_ACTION)
-                            .appendQueryParameter(TRAILER_PARAM, key)
-                            .build();
-                    trailerList.add(new TrailerItem(name, key, trailerUri.toString()));
-                }
-                Log.v(LOG_TAG,"TrailerList From Method :" +trailerList);
-                    return trailerList;
-                }
+                reviewList.add(new ReviewItem(author, content));
 
 
-            else{
-                JSONObject movieReviews = new JSONObject(movieTrailerAndRevJson);
-                JSONArray results = movieReviews.getJSONArray(PMA_RESULTS);
-                int numReviews = results.length();
-                ArrayList reviewList = new ArrayList();
-
-
-                for (int i=0; i<numReviews; i++){
-                    //  HashMap<String,String> reviewMap = new HashMap<>();
-                    JSONObject reviewData = results.getJSONObject(i);
-
-                    String author = reviewData.getString(MDB_AUTHOR);
-                    String content = reviewData.getString(MDB_CONTENT);
-                    Log.v(LOG_TAG,"content :" +content);
-
-                    reviewList.add(new ReviewItem(author,content));
-
-
-                    return reviewList;
-
-
-                }
+                return reviewList;
 
 
             }
-            return null;
         }
+
+
+
+
+    return null;
+}
 
     }
 

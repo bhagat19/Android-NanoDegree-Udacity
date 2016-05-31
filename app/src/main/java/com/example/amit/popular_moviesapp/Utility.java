@@ -3,6 +3,8 @@ package com.example.amit.popular_moviesapp;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
 import com.example.amit.popular_moviesapp.Database.MovieContract;
@@ -34,6 +36,13 @@ public class Utility {
             return true;
         } else
             return false;
+    }
+
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
 
