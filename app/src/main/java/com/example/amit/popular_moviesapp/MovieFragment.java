@@ -131,6 +131,7 @@ public  class MovieFragment extends Fragment {
         mPrevSort = mCurrentSort;
         mCurrentSort = Utility.getSortOrder(mContext);
         Log.v(LOG_TAG,"sort :"+mCurrentSort);
+
         new FetchMovie(mContext,mAdapter).execute(mCurrentSort,String.valueOf(START_PAGE));
        // movies = mAdapter.getAll();
 //        updateMovieFragment();

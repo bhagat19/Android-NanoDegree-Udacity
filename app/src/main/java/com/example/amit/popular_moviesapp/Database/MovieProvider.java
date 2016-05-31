@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 /**
  * Created by amit on 20-05-2016.
@@ -16,6 +17,7 @@ public class MovieProvider extends ContentProvider {
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private MovieDbHelper mOpenHelper;
+    String LOG_TAG = MovieProvider.class.getSimpleName();
 
     public static final int FAVORITE = 100;
     public static final int FAVORITE_WITH_MOVIE_ID = 101;
@@ -55,6 +57,7 @@ public class MovieProvider extends ContentProvider {
 
     private Cursor getFavoriteMovieByMovieId(Uri uri, String[] projection) {
         String movieId = MovieContract.FavoriteEntry.getMovieIdFromUri(uri);
+        Log.v(LOG_TAG,"Content Provider" +movieId);
 
         String[] selectionArgs;
         String selection;

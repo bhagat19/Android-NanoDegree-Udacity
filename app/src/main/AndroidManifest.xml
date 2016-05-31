@@ -36,6 +36,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.amit.popular_moviesapp.MainActivity" />
         </activity>
+
+        <provider
+            android:authorities="com.example.amit.popular_moviesapp"
+            android:name=".Database.MovieProvider" />
     </application>
 
 </manifest>

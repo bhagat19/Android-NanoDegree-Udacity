@@ -50,10 +50,10 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
                 MovieContract.TrailerEntry.COLUMN_FAVORITE_RECORD_ID + " INTEGER NOT NULL, " +
 
-                MovieContract.TrailerEntry.COLUMN_TRAILER_NAME + "TEXT NOT NULL, " +
+                MovieContract.TrailerEntry.COLUMN_TRAILER_NAME + " TEXT NOT NULL, " +
 
                 //This will contain the key for the movie trailer on youtube
-                MovieContract.TrailerEntry.COLUMN_TRAILER_KEY + " TEXT NOT NULL, " +
+                MovieContract.TrailerEntry.COLUMN_TRAILER_LINK + " TEXT NOT NULL, " +
 
                 // Set up the movie key column as a foreign key to  favorite table.
                 " FOREIGN KEY (" + MovieContract.TrailerEntry.COLUMN_FAVORITE_RECORD_ID + ") REFERENCES " +

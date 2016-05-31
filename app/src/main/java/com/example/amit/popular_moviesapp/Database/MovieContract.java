@@ -12,7 +12,7 @@ public class MovieContract {
 
     // The content authority is the name of the entire content provider
     // We choose it to be the package name of the app which is guranteed to be unique on device
-    public static final String CONTENT_AUTHORITY = "com.example.amit.android.moviesapp";
+    public static final String CONTENT_AUTHORITY = "com.example.amit.popular_moviesapp";
 
     // Apps will use this base uri to contact the content provider
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
@@ -84,7 +84,7 @@ public class MovieContract {
         public static final String COLUMN_TRAILER_NAME = "name";
 
         // This holds the trailer key that will be passed to the youtube path
-        public static final String COLUMN_TRAILER_KEY = "trailer_key";
+        public static final String COLUMN_TRAILER_LINK = "trailer_link";
 
         public static Uri buildTrailerUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);

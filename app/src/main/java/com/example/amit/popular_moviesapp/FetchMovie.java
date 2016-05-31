@@ -1,7 +1,10 @@
 package com.example.amit.popular_moviesapp;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.text.Layout;
@@ -9,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridView;
+
+import com.example.amit.popular_moviesapp.Database.MovieContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +28,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 
 /**
  * Created by amit on 07-04-2016.
@@ -52,7 +58,17 @@ public class FetchMovie extends AsyncTask<String,Void,ArrayList<MovieItem>> {
         BufferedReader reader = null;
         StringBuilder builder;
         String movieJsonStr = "";
+        String sortOrder = params[0];
+        Log.v(LOG_TAG,"sortOrder "+sortOrder);
 
+
+        if (sortOrder.equals(mContext.getString(R.string.pref_sort_favourite))) {
+
+
+            Vector<ContentValues> vector = getFavMoviesFromDB();
+            Log.v(LOG_TAG,"Favourite VEctor" +vector);
+            return getMovieListFromContentValues(vector);
+        }
 
         try {
         Uri.Builder uri = new Uri.Builder();
@@ -61,7 +77,7 @@ public class FetchMovie extends AsyncTask<String,Void,ArrayList<MovieItem>> {
                 appendPath("3").
                 appendPath("discover").
                 appendPath("movie").
-                appendQueryParameter("sort_by", params[0]).
+                appendQueryParameter("sort_by", sortOrder).
                 appendQueryParameter("page", params[1]).
                 appendQueryParameter("api_key", mContext.getString(R.string.APIKEY)).
                 build();
@@ -142,7 +158,62 @@ public class FetchMovie extends AsyncTask<String,Void,ArrayList<MovieItem>> {
             //   Log.v(LOG_TAG,"onPostExecute :" +movieAdapter.getAll());
         }
 
+    public Vector<ContentValues> getFavMoviesFromDB(){
 
+        Cursor cursor = mContext.getContentResolver().query(
+                MovieContract.FavoriteEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null);
+
+
+        Vector<ContentValues> contentValuesVector = new Vector<ContentValues>(cursor.getCount());
+        if (cursor.moveToFirst()) {
+            do {
+                ContentValues contentValues = new ContentValues();
+                DatabaseUtils.cursorRowToContentValues(cursor, contentValues);
+                contentValuesVector.add(contentValues);
+            } while (cursor.moveToNext());
+
+            return contentValuesVector;
+        }
+        return null;
+
+    }
+
+    public ArrayList<MovieItem> getMovieListFromContentValues(Vector<ContentValues> vector) {
+        if (vector == null) {
+            return null;
+        }
+
+        ArrayList<MovieItem> favoriteList = new ArrayList<>();
+        for (int i = 0; i < vector.size(); i++) {
+
+            HashMap<String, String> map = new HashMap<>();
+
+            ContentValues cv = vector.elementAt(i);
+
+            map.put(mContext.getString(R.string.movie_id),
+                    (String) cv.get(MovieContract.FavoriteEntry.COLUMN_MOVIE_ID));
+            map.put(mContext.getString(R.string.movie_title),
+                    (String) cv.get(MovieContract.FavoriteEntry.COLUMN_ORIGINAL_TITLE));
+            map.put(mContext.getString(R.string.movie_poster_url),
+                    (String) cv.get(MovieContract.FavoriteEntry.COLUMN_MOVIE_POSTER));
+            map.put(mContext.getString(R.string.movie_release_date),
+                    (String) cv.get(MovieContract.FavoriteEntry.COLUMN_RELEASE_DATE));
+            map.put(mContext.getString(R.string.movie_background_url),
+                    (String) cv.get(MovieContract.FavoriteEntry.COLUMN_BACKDROP_IMG));
+            map.put(mContext.getString(R.string.movie_overview),
+                    (String) cv.get(MovieContract.FavoriteEntry.COLUMN_OVERVIEW));
+            map.put(mContext.getString(R.string.movie_vote_average),
+                    (String) cv.get(MovieContract.FavoriteEntry.COLUMN_VOTE_AVG));
+
+            MovieItem favMovie = new MovieItem(map);
+            favoriteList.add(favMovie);
+        }
+        return favoriteList;
+    }
 
 
 

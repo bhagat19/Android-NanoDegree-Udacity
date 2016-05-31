@@ -20,4 +20,7 @@ public class TrailerItem {
     public String getLink(){
         return link;
     }
+    public String getKey(){
+        return key;
+    }
 }
