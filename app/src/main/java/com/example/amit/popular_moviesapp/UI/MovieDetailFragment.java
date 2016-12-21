@@ -101,11 +101,8 @@ public class MovieDetailFragment extends Fragment {
 
             mCurrentMovie = bundle.getParcelable(MovieFragment.MOVIE);
             String movieId = mCurrentMovie.getMovie().get("id");
-            // bundle.get("movie");
 
 
-            // new FetchTrailersAndReviews(context).execute(movieId,TRAILERS);
-            // new FetchTrailersAndReviews(context).execute(movieId,REVIEWS);
             initTrailerAndReviewViews();
 
             new FetchReviewsTask(mContext).execute(movieId, REVIEWS);
@@ -128,8 +125,7 @@ public class MovieDetailFragment extends Fragment {
             overView = (TextView) view.findViewById(R.id.movie_overview);
             noReviews = (TextView) (mInflater.inflate(R.layout.review, null, false)).
                     findViewById(R.id.noReviews);
-            //          noReviews = (TextView) view.findViewById(R.id.noReviews);
-            //   overView.setMovementMethod(new ScrollingMovementMethod());
+
 
             favButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -342,39 +338,7 @@ public class MovieDetailFragment extends Fragment {
 
         reviewList.setAdapter(mReviewAdapter);
         trailerList.setAdapter(mTrailerAdapter);
-        //
-   /*         reviewList.setOnTouchListener(new ListView.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    int action = event.getAction();
-                    switch (action) {
-                        case MotionEvent.ACTION_DOWN:
-                            // Disallow ScrollView to intercept touch events.
-                            v.getParent().requestDisallowInterceptTouchEvent(true);
-                            break;
 
-                        case MotionEvent.ACTION_UP:
-                            // Allow ScrollView to intercept touch events.
-                            v.getParent().requestDisallowInterceptTouchEvent(false);
-                            break;
-                    }
-
-                    // Handle ListView touch events.
-                    v.onTouchEvent(event);
-                    return true;
-                }
-            });
-            */
-/*
-        reviewList.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            //http://stackoverflow.com/questions/18367522/android-list-view-inside-a-scroll-view
-            public boolean onTouch(View v, MotionEvent event) {
-                // Disallow the touch request for parent scroll on touch of child view
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-        }});
-        */
 
         trailerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

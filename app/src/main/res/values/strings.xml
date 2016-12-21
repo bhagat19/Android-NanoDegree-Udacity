@@ -10,14 +10,14 @@
 
     <string name="pref_sort_label">Sort</string>
     <string name="pref_sort_label_popular">Popularity</string>
-    <string name="pref_sort_label_ratings">Ratings</string>
+    <string name="pref_sort_label_ratings">Top Rated</string>
     <string name="pref_sort_label_favourite">Favourites</string>
 
 
     <string name="pref_sort_key" translatable="false">sort</string>
-    <string name="pref_sort_popular" translatable="false">popularity.desc</string>
+    <string name="pref_sort_popular" translatable="false">popular</string>
     <string name="pref_sort_favourite" translatable="false">favourite</string>
-    <string name="pref_sort_ratings" translatable="false">vote_average.desc</string>
+    <string name="pref_sort_ratings" translatable="false">top_rated</string>
 
 
     <!-- Strings for JSON data results !-->

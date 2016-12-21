@@ -74,9 +74,8 @@ public class FetchMovie extends AsyncTask<String, Void, ArrayList<MovieItem>> {
             uri.scheme("http").
                     authority("api.themoviedb.org").
                     appendPath("3").
-                    appendPath("discover").
                     appendPath("movie").
-                    appendQueryParameter("sort_by", sortOrder).
+                    appendPath(sortOrder).
                     appendQueryParameter("page", params[1]).
                     appendQueryParameter("api_key", mContext.getString(R.string.APIKEY)).
                     build();
