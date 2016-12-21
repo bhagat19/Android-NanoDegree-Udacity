@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/author_name"
-        android:layout_margin="4dp"
-        android:textStyle="bold"
-        android:textSize="@dimen/abc_text_size_small_material"/>
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:textSize="@dimen/abc_text_size_small_material"
+        android:textStyle="bold"/>
+
+    <TextView
         android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:nestedScrollingEnabled="true"
 
 
-       />
+        />
+
     <TextView
+        android:id="@+id/noReviews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/noReviews"
-        android:visibility="invisible"
-        android:text="No reviews found"/>
+        android:text="No reviews found"
+        android:visibility="invisible"/>
 
 </LinearLayout>

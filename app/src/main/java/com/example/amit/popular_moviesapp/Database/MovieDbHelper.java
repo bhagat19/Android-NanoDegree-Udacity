@@ -5,23 +5,22 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import static com.example.amit.popular_moviesapp.Database.MovieContract.FavoriteEntry.*;
+import static com.example.amit.popular_moviesapp.Database.MovieContract.FavoriteEntry.TABLE_NAME;
 
 /**
  * Created by amit on 20-05-2016.
  */
 public class MovieDbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
-
     public static final String DATABASE_NAME = "movie.db";
+    private static final int DATABASE_VERSION = 1;
 
     public MovieDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase){
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
 
         String tag = this.getClass().getName();
@@ -36,7 +35,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 MovieContract.FavoriteEntry.COLUMN_MOVIE_POSTER + " TEXT NOT NULL, " +
                 MovieContract.FavoriteEntry.COLUMN_BACKDROP_IMG + " TEXT NOT NULL, " +
 
-   //             MovieContract.FavoriteEntry.COLUMN_GENRES + " TEXT NOT NULL, " +
+                //             MovieContract.FavoriteEntry.COLUMN_GENRES + " TEXT NOT NULL, " +
                 MovieContract.FavoriteEntry.COLUMN_RELEASE_DATE + " TEXT NOT NULL, " +
                 MovieContract.FavoriteEntry.COLUMN_VOTE_AVG + " REAL NOT NULL, " +
                 MovieContract.FavoriteEntry.COLUMN_OVERVIEW + " TEXT NOT NULL" +
@@ -97,5 +96,5 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 " COLUMN_NAME");
     }
 
-    }
+}
 

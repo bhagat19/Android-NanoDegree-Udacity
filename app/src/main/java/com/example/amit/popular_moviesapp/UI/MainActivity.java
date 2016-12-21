@@ -1,16 +1,16 @@
-package com.example.amit.popular_moviesapp;
+package com.example.amit.popular_moviesapp.Ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+
+import com.example.amit.popular_moviesapp.Model.MovieItem;
+import com.example.amit.popular_moviesapp.R;
+import com.example.amit.popular_moviesapp.Util.Utility;
 
 
 public class MainActivity extends AppCompatActivity implements MovieFragment.Callback {
@@ -26,14 +26,13 @@ public class MainActivity extends AppCompatActivity implements MovieFragment.Cal
         setContentView(R.layout.activity_main);
         mContext = getApplicationContext();
 
-        if(findViewById(R.id.detail_container) != null){
+        if (findViewById(R.id.detail_container) != null) {
             mTwoPane = true;
-            if (savedInstanceState == null){
+            if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction().
                         replace(R.id.detail_container, new MovieDetailFragment()).commit();
             }
-        }
-        else{
+        } else {
             mTwoPane = false;
         }
 
@@ -47,18 +46,18 @@ public class MainActivity extends AppCompatActivity implements MovieFragment.Cal
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
 
         String sortOrder = Utility.getSortOrder(mContext);
-        Log.v(LOG_TAG,"In onResume :" +sortOrder+mSort);
+        Log.v(LOG_TAG, "In onResume :" + sortOrder + mSort);
 
 
-        if (!sortOrder.equals(mSort)){
-        MovieFragment ff = (MovieFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
-        ff.onSortChanged(sortOrder);
+        if (!sortOrder.equals(mSort)) {
+            MovieFragment ff = (MovieFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+            ff.onSortChanged(sortOrder);
             mSort = sortOrder;
-    }
+        }
     }
 
     @Override
@@ -77,36 +76,34 @@ public class MainActivity extends AppCompatActivity implements MovieFragment.Cal
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivity(new Intent(this,SettingsActivity.class));
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void onItemSelected(MovieItem movieItem){
+    public void onItemSelected(MovieItem movieItem) {
         //if mTwoPane = true
         //FrameLayout in activity.main.xml got to be replaced with Detail Fragment
         //else
         //an Intent to Call DetailActivity for single pane Layout and passing relevant info
 
-      if (mTwoPane) {
+        if (mTwoPane) {
 
-          Bundle bundle = new Bundle();
-          bundle.putParcelable(MovieFragment.MOVIE, movieItem);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(MovieFragment.MOVIE, movieItem);
 
-          MovieDetailFragment df = new MovieDetailFragment();
-          df.setArguments(bundle);
+            MovieDetailFragment df = new MovieDetailFragment();
+            df.setArguments(bundle);
 
-          getSupportFragmentManager().beginTransaction().
-                  replace(R.id.detail_container, df).commit();
-      }
+            getSupportFragmentManager().beginTransaction().
+                    replace(R.id.detail_container, df).commit();
+        } else {
 
-      else{
-
-       Intent intent = new Intent(this,DetailActivity.class);
-       intent.putExtra(MovieFragment.MOVIE,movieItem);
-       startActivity(intent);
-      }
+            Intent intent = new Intent(this, DetailActivity.class);
+            intent.putExtra(MovieFragment.MOVIE, movieItem);
+            startActivity(intent);
+        }
     }
 }

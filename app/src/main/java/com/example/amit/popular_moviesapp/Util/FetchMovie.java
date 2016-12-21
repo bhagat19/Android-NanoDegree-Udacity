@@ -1,19 +1,19 @@
-package com.example.amit.popular_moviesapp;
+package com.example.amit.popular_moviesapp.Util;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.GridView;
 
 import com.example.amit.popular_moviesapp.Database.MovieContract;
+import com.example.amit.popular_moviesapp.Model.MovieAdapter;
+import com.example.amit.popular_moviesapp.Model.MovieItem;
+import com.example.amit.popular_moviesapp.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,11 +33,11 @@ import java.util.Vector;
  * Created by amit on 07-04-2016.
  */
 
-public class FetchMovie extends AsyncTask<String,Void,ArrayList<MovieItem>> {
+public class FetchMovie extends AsyncTask<String, Void, ArrayList<MovieItem>> {
 
+    final String LOG_TAG = FetchMovie.class.getSimpleName();
     Context mContext;
     MovieAdapter movieAdapter;
-    final String LOG_TAG = FetchMovie.class.getSimpleName();
     GridView mGridView;
     LayoutInflater inflater;
 
@@ -59,33 +58,33 @@ public class FetchMovie extends AsyncTask<String,Void,ArrayList<MovieItem>> {
         StringBuilder builder;
         String movieJsonStr = "";
         String sortOrder = params[0];
-        Log.v(LOG_TAG,"sortOrder "+sortOrder);
+        Log.v(LOG_TAG, "sortOrder " + sortOrder);
 
 
         if (sortOrder.equals(mContext.getString(R.string.pref_sort_favourite))) {
 
 
             Vector<ContentValues> vector = getFavMoviesFromDB();
-            Log.v(LOG_TAG,"Favourite VEctor" +vector);
+            Log.v(LOG_TAG, "Favourite VEctor" + vector);
             return getMovieListFromContentValues(vector);
         }
 
         try {
-        Uri.Builder uri = new Uri.Builder();
-        uri.scheme("http").
-                authority("api.themoviedb.org").
-                appendPath("3").
-                appendPath("discover").
-                appendPath("movie").
-                appendQueryParameter("sort_by", sortOrder).
-                appendQueryParameter("page", params[1]).
-                appendQueryParameter("api_key", mContext.getString(R.string.APIKEY)).
-                build();
-        //Check Network Connection
+            Uri.Builder uri = new Uri.Builder();
+            uri.scheme("http").
+                    authority("api.themoviedb.org").
+                    appendPath("3").
+                    appendPath("discover").
+                    appendPath("movie").
+                    appendQueryParameter("sort_by", sortOrder).
+                    appendQueryParameter("page", params[1]).
+                    appendQueryParameter("api_key", mContext.getString(R.string.APIKEY)).
+                    build();
+            //Check Network Connection
 
 
             URL url = new URL(uri.toString());
-            Log.v(LOG_TAG,uri.toString());
+            Log.v(LOG_TAG, uri.toString());
 
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
@@ -100,7 +99,7 @@ public class FetchMovie extends AsyncTask<String,Void,ArrayList<MovieItem>> {
             }
 
             movieJsonStr += buffer.toString();
-            Log.v(LOG_TAG,"Movie String: " +movieJsonStr);
+            Log.v(LOG_TAG, "Movie String: " + movieJsonStr);
 
         } catch (IOException exception) {
             movieJsonStr = null;
@@ -132,33 +131,19 @@ public class FetchMovie extends AsyncTask<String,Void,ArrayList<MovieItem>> {
     @Override
     protected void onPostExecute(final ArrayList<MovieItem> movieList) {
         super.onPostExecute(movieList);
-  //      movieAdapter.notifyDataSetChanged();
+        //      movieAdapter.notifyDataSetChanged();
+
         if (movieList != null) {
-            //    movieAdapter.clear();
-            //      for(int i =0; i<movieList.size(); i++) {
-            //      movieAdapter.addAll(movieList);
-     //       ((Activity) mContext).runOnUiThread(new Runnable() {
-      //          @Override
-      //          public void run() {
-       //             mGridView = (GridView) (inflater.inflate(R.layout.fragment_view, null)).findViewById(R.id.gridView);
-
-      //              movieAdapter = new MovieAdapter(mContext, movieList);
-      //              movieAdapter.clear();
-                    movieAdapter.addAll(movieList);
-      //              mGridView.setAdapter(movieAdapter);
-
-
-                    movieAdapter.notifyDataSetChanged();
-                    //        MovieFragment.mGridView.invalidateViews();
-
-                }
-       //     });
-
-
-            //   Log.v(LOG_TAG,"onPostExecute :" +movieAdapter.getAll());
+            if ((Utility.getSortOrder(mContext)).equals(mContext.getString(R.string.pref_sort_favourite))) {
+                movieAdapter.clear();
+            }
+            movieAdapter.addAll(movieList);
+            movieAdapter.notifyDataSetChanged();
         }
 
-    public Vector<ContentValues> getFavMoviesFromDB(){
+    }
+
+    public Vector<ContentValues> getFavMoviesFromDB() {
 
         Cursor cursor = mContext.getContentResolver().query(
                 MovieContract.FavoriteEntry.CONTENT_URI,
@@ -216,80 +201,78 @@ public class FetchMovie extends AsyncTask<String,Void,ArrayList<MovieItem>> {
     }
 
 
+    public ArrayList<MovieItem> getMoviesFromJson(String movieJsonStr) throws JSONException {
 
+        final String PMA_RESULTS = mContext.getString(R.string.movie_results);
+        final String PMA_MOVIEID = mContext.getString(R.string.movie_id);
+        final String PMA_TITLE = mContext.getString(R.string.movie_title);
 
-    public ArrayList<MovieItem> getMoviesFromJson(String movieJsonStr) throws JSONException{
+        final String PMA_RELEASEDATE = mContext.getString(R.string.movie_release_date);
+        final String PMA_VOTEAVG = mContext.getString(R.string.movie_vote_average);
+        final String PMA_OVERVIEW = mContext.getString(R.string.movie_overview);
+        final String PMA_BG = mContext.getString(R.string.movie_background_url);
+        final String PMA_POSTER = mContext.getString(R.string.movie_poster_url);
+        final String POSTER_SIZE = mContext.getString(R.string.poster_size);
+        final String BG_SIZE = mContext.getString(R.string.background_size);
 
-    final String PMA_RESULTS = mContext.getString(R.string.movie_results);
-    final String PMA_MOVIEID = mContext.getString(R.string.movie_id);
-    final String PMA_TITLE = mContext.getString(R.string.movie_title);
-
-    final String PMA_RELEASEDATE = mContext.getString(R.string.movie_release_date);
-    final String PMA_VOTEAVG = mContext.getString(R.string.movie_vote_average);
-    final String PMA_OVERVIEW = mContext.getString(R.string.movie_overview);
-    final String PMA_BG = mContext.getString(R.string.movie_background_url);
-    final String PMA_POSTER = mContext.getString(R.string.movie_poster_url);
-    final String POSTER_SIZE = mContext.getString(R.string.poster_size);
-    final String BG_SIZE = mContext.getString(R.string.background_size);
-
-    if (movieJsonStr == null){
-        return null;
-    }
-
-    JSONObject movieDetails = new JSONObject(movieJsonStr);
-    JSONArray results = movieDetails.getJSONArray(PMA_RESULTS);
-
-    int totalNumMovies = results.length();
-    ArrayList<MovieItem> movieList = new ArrayList<>();
-    String baseUrl =  "http://image.tmdb.org/t/p/";
-
-
-    for (int i = 0; i<totalNumMovies; i++){
-
-
-        HashMap<String,String> movieMap = new HashMap<>();
-        JSONObject movieData = results.getJSONObject(i);
-
-        movieMap.put(PMA_MOVIEID, movieData.getString(PMA_MOVIEID));
-    //    movieMap.put(PMA_BG, movieData.getString(PMA_BG));
-        movieMap.put(PMA_OVERVIEW,movieData.getString(PMA_OVERVIEW));
-    //    movieMap.put(PMA_POSTER,movieData.getString(PMA_POSTER));
-        movieMap.put(PMA_RELEASEDATE, movieData.getString(PMA_RELEASEDATE));
-        movieMap.put(PMA_VOTEAVG, movieData.getString(PMA_VOTEAVG));
-        movieMap.put(PMA_TITLE,movieData.getString(PMA_TITLE));
-
-      //  Log.v(LOG_TAG, "MovieMap :" +movieMap);
-
-
-        String posterUrl = movieData.getString(PMA_POSTER);
-        String backgroundImgUrl = movieData.getString(PMA_BG);
-        Uri moviePosterUri;
-        Uri movieBackgroundUri;
-
-        if (posterUrl != null){
-
-            moviePosterUri = Uri.parse(baseUrl).buildUpon().
-                    appendEncodedPath(POSTER_SIZE).
-                    appendEncodedPath(posterUrl).
-                    build();
-            movieMap.put(PMA_POSTER,moviePosterUri.toString());
+        if (movieJsonStr == null) {
+            return null;
         }
 
-        if (backgroundImgUrl != null){
+        JSONObject movieDetails = new JSONObject(movieJsonStr);
+        JSONArray results = movieDetails.getJSONArray(PMA_RESULTS);
 
-            movieBackgroundUri = Uri.parse(baseUrl).buildUpon().
-                    appendEncodedPath(BG_SIZE).
-                    appendEncodedPath(backgroundImgUrl).
-                    build();
-            movieMap.put(PMA_BG,movieBackgroundUri.toString());
+        int totalNumMovies = results.length();
+        ArrayList<MovieItem> movieList = new ArrayList<>();
+        String baseUrl = "http://image.tmdb.org/t/p/";
+
+
+        for (int i = 0; i < totalNumMovies; i++) {
+
+
+            HashMap<String, String> movieMap = new HashMap<>();
+            JSONObject movieData = results.getJSONObject(i);
+
+            movieMap.put(PMA_MOVIEID, movieData.getString(PMA_MOVIEID));
+            //    movieMap.put(PMA_BG, movieData.getString(PMA_BG));
+            movieMap.put(PMA_OVERVIEW, movieData.getString(PMA_OVERVIEW));
+            //    movieMap.put(PMA_POSTER,movieData.getString(PMA_POSTER));
+            movieMap.put(PMA_RELEASEDATE, movieData.getString(PMA_RELEASEDATE));
+            movieMap.put(PMA_VOTEAVG, movieData.getString(PMA_VOTEAVG));
+            movieMap.put(PMA_TITLE, movieData.getString(PMA_TITLE));
+
+            //  Log.v(LOG_TAG, "MovieMap :" +movieMap);
+
+
+            String posterUrl = movieData.getString(PMA_POSTER);
+            String backgroundImgUrl = movieData.getString(PMA_BG);
+            Uri moviePosterUri;
+            Uri movieBackgroundUri;
+
+            if (posterUrl != null) {
+
+                moviePosterUri = Uri.parse(baseUrl).buildUpon().
+                        appendEncodedPath(POSTER_SIZE).
+                        appendEncodedPath(posterUrl).
+                        build();
+                movieMap.put(PMA_POSTER, moviePosterUri.toString());
+            }
+
+            if (backgroundImgUrl != null) {
+
+                movieBackgroundUri = Uri.parse(baseUrl).buildUpon().
+                        appendEncodedPath(BG_SIZE).
+                        appendEncodedPath(backgroundImgUrl).
+                        build();
+                movieMap.put(PMA_BG, movieBackgroundUri.toString());
+            }
+
+            movieList.add(new MovieItem(movieMap));
+
+
         }
+        //  Log.v(LOG_TAG,"MovieList :" +movieList);
 
-        movieList.add(new MovieItem(movieMap));
-
-
+        return movieList;
     }
-      //  Log.v(LOG_TAG,"MovieList :" +movieList);
-
- return movieList;
-}
 }

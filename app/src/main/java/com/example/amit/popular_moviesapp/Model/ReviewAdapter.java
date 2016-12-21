@@ -1,8 +1,6 @@
-package com.example.amit.popular_moviesapp;
+package com.example.amit.popular_moviesapp.Model;
 
 import android.content.Context;
-import android.text.Layout;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.amit.popular_moviesapp.R;
+
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 /**
  * Created by amit on 15-04-2016.
@@ -22,9 +21,9 @@ public class ReviewAdapter extends ArrayAdapter<ReviewItem> {
     ArrayList<ReviewItem> reviewItemArrayList = new ArrayList<>();
     String LOG_TAG = ReviewAdapter.class.getSimpleName();
 
-    public ReviewAdapter(Context context, int layoutResource, ArrayList<ReviewItem> reviewItems){
+    public ReviewAdapter(Context context, int layoutResource, ArrayList<ReviewItem> reviewItems) {
 
-        super(context,layoutResource,reviewItems);
+        super(context, layoutResource, reviewItems);
         this.context = context;
         this.layoutResourceId = layoutResource;
         this.reviewItemArrayList = reviewItems;
@@ -32,23 +31,22 @@ public class ReviewAdapter extends ArrayAdapter<ReviewItem> {
 
     @Override
 
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
 
         viewHolder holder;
 
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        if(convertView == null){
-            convertView = inflater.inflate(layoutResourceId,parent,false);
+        if (convertView == null) {
+            convertView = inflater.inflate(layoutResourceId, parent, false);
             holder = new viewHolder();
             holder.author = (TextView) convertView.findViewById(R.id.author_name);
             holder.content = (TextView) convertView.findViewById(R.id.content);
-            holder.noReviews=(TextView) convertView.findViewById(R.id.noReviews);
-    //        holder.content.setMovementMethod(new ScrollingMovementMethod());
+            holder.noReviews = (TextView) convertView.findViewById(R.id.noReviews);
+            //        holder.content.setMovementMethod(new ScrollingMovementMethod());
             convertView.setTag(holder);
-        }
-        else{
-            holder = (viewHolder)convertView.getTag();
+        } else {
+            holder = (viewHolder) convertView.getTag();
         }
 
         ReviewItem review = reviewItemArrayList.get(position);
@@ -57,14 +55,13 @@ public class ReviewAdapter extends ArrayAdapter<ReviewItem> {
         if (reviewItemArrayList != null) {
             holder.author.setText(review.getAuthor());
             holder.content.setText(review.getContent());
-        }
-        else
-        holder.noReviews.setVisibility(View.VISIBLE);
+        } else
+            holder.noReviews.setVisibility(View.VISIBLE);
 
         return convertView;
     }
 
-    private static class viewHolder{
+    private static class viewHolder {
 
         private TextView author;
         private TextView content;

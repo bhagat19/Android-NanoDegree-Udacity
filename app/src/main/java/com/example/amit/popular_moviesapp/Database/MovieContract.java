@@ -43,7 +43,7 @@ public class MovieContract {
         public static final String COLUMN_MOVIE_ID = "movie_id";
 
         public static final String COLUMN_ORIGINAL_TITLE = "original_title";
-  //      public static final String COLUMN_GENRES = "genres";
+        //      public static final String COLUMN_GENRES = "genres";
         public static final String COLUMN_MOVIE_POSTER = "movie_poster";
         public static final String COLUMN_OVERVIEW = "overview";
         public static final String COLUMN_VOTE_AVG = "vote_avg";
@@ -55,9 +55,9 @@ public class MovieContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-  //      public static Uri buildFavoriteMovieUriWithMovieId(String movieId) {
-   //         return CONTENT_URI.buildUpon().appendPath(movieId).build();
-    //    }
+        //      public static Uri buildFavoriteMovieUriWithMovieId(String movieId) {
+        //         return CONTENT_URI.buildUpon().appendPath(movieId).build();
+        //    }
 
         public static String getMovieIdFromUri(Uri uri) {
             return uri.getPathSegments().get(1);
@@ -83,6 +83,8 @@ public class MovieContract {
 
         public static final String COLUMN_TRAILER_NAME = "name";
 
+        public static final String COLUMN_TRAILER_KEY = "key";
+
         // This holds the trailer key that will be passed to the youtube path
         public static final String COLUMN_TRAILER_LINK = "trailer_link";
 
@@ -90,9 +92,9 @@ public class MovieContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-  //      public static Uri buildTrailerUriWithMovieId(String movieId) {
-   //         return CONTENT_URI.buildUpon().appendQueryParameter(COLUMN_FAVORITE_RECORD_ID, movieId).build();
-    //    }
+        //      public static Uri buildTrailerUriWithMovieId(String movieId) {
+        //         return CONTENT_URI.buildUpon().appendQueryParameter(COLUMN_FAVORITE_RECORD_ID, movieId).build();
+        //    }
     }
 
     public static final class ReviewEntry implements BaseColumns {

@@ -1,4 +1,4 @@
-package com.example.amit.popular_moviesapp;
+package com.example.amit.popular_moviesapp.Util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
 import com.example.amit.popular_moviesapp.Database.MovieContract;
+import com.example.amit.popular_moviesapp.R;
 
 /**
  * Created by amit on 27-04-2016.

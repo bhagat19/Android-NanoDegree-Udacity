@@ -1,4 +1,4 @@
-package com.example.amit.popular_moviesapp;
+package com.example.amit.popular_moviesapp.Util;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -15,12 +15,15 @@ public class NonScrollableListView extends ListView {
     public NonScrollableListView(Context context) {
         super(context);
     }
+
     public NonScrollableListView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
     public NonScrollableListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
+
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int heightMeasureSpec_custom = MeasureSpec.makeMeasureSpec(

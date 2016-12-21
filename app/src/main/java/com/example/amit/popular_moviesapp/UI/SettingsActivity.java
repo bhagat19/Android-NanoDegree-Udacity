@@ -1,10 +1,12 @@
-package com.example.amit.popular_moviesapp;
+package com.example.amit.popular_moviesapp.Ui;
 
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+
+import com.example.amit.popular_moviesapp.R;
 
 /**
  * Created by amit on 28-04-2016.

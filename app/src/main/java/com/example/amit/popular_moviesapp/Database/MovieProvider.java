@@ -15,20 +15,20 @@ import android.util.Log;
  */
 public class MovieProvider extends ContentProvider {
 
-    private static final UriMatcher sUriMatcher = buildUriMatcher();
-    private MovieDbHelper mOpenHelper;
-    String LOG_TAG = MovieProvider.class.getSimpleName();
-
     public static final int FAVORITE = 100;
     public static final int FAVORITE_WITH_MOVIE_ID = 101;
     public static final int TRAILER = 200;
     //static final int TRAILER_WITH_MOVIE_ID = 201;
     public static final int REVIEW = 300;
+    private static final UriMatcher sUriMatcher = buildUriMatcher();
+    private static final SQLiteQueryBuilder sFavoriteMovieByMovieIdQueryBuilder;
+    //favorite.movie_id = ?
+    private static final String sMovieIdSelection =
+            MovieContract.FavoriteEntry.TABLE_NAME +
+                    "." + MovieContract.FavoriteEntry.COLUMN_MOVIE_ID + " = ? ";
     //static final int REVIEW_WITH_MOVIE_ID = 301;
 
-    private static final SQLiteQueryBuilder sFavoriteMovieByMovieIdQueryBuilder;
-
-    static{
+    static {
         sFavoriteMovieByMovieIdQueryBuilder = new SQLiteQueryBuilder();
 
         // This is an inner join which looks like
@@ -50,30 +50,8 @@ public class MovieProvider extends ContentProvider {
                         "." + MovieContract.FavoriteEntry._ID);
     }
 
-    //favorite.movie_id = ?
-    private static final String sMovieIdSelection =
-            MovieContract.FavoriteEntry.TABLE_NAME+
-                    "." + MovieContract.FavoriteEntry.COLUMN_MOVIE_ID + " = ? ";
-
-    private Cursor getFavoriteMovieByMovieId(Uri uri, String[] projection) {
-        String movieId = MovieContract.FavoriteEntry.getMovieIdFromUri(uri);
-        Log.v(LOG_TAG,"Content Provider" +movieId);
-
-        String[] selectionArgs;
-        String selection;
-
-        selection = sMovieIdSelection;
-        selectionArgs = new String[]{movieId};
-
-        return sFavoriteMovieByMovieIdQueryBuilder.query(mOpenHelper.getReadableDatabase(),
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-    }
+    String LOG_TAG = MovieProvider.class.getSimpleName();
+    private MovieDbHelper mOpenHelper;
 
     /*
         Here is where WE need to create the UriMatcher. This UriMatcher will
@@ -96,6 +74,26 @@ public class MovieProvider extends ContentProvider {
         //matcher.addURI(authority, MovieContract.PATH_REVIEW + "/*", REVIEW_WITH_MOVIE_ID);
 
         return matcher;
+    }
+
+    private Cursor getFavoriteMovieByMovieId(Uri uri, String[] projection) {
+        String movieId = MovieContract.FavoriteEntry.getMovieIdFromUri(uri);
+        Log.v(LOG_TAG, "Content Provider" + movieId);
+
+        String[] selectionArgs;
+        String selection;
+
+        selection = sMovieIdSelection;
+        selectionArgs = new String[]{movieId};
+
+        return sFavoriteMovieByMovieIdQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
     }
 
     @Override
@@ -136,8 +134,7 @@ public class MovieProvider extends ContentProvider {
         Cursor retCursor;
         switch (sUriMatcher.match(uri)) {
             // "weather/*/*"
-            case FAVORITE_WITH_MOVIE_ID:
-            {
+            case FAVORITE_WITH_MOVIE_ID: {
                 retCursor = getFavoriteMovieByMovieId(uri, projection);
                 break;
             }
@@ -197,7 +194,7 @@ public class MovieProvider extends ContentProvider {
         switch (match) {
             case FAVORITE: {
                 long _id = db.insert(MovieContract.FavoriteEntry.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = MovieContract.FavoriteEntry.buildFavoriteMovieUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
@@ -206,7 +203,7 @@ public class MovieProvider extends ContentProvider {
 
             case TRAILER: {
                 long _id = db.insert(MovieContract.TrailerEntry.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = MovieContract.TrailerEntry.buildTrailerUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
@@ -215,7 +212,7 @@ public class MovieProvider extends ContentProvider {
 
             case REVIEW: {
                 long _id = db.insert(MovieContract.ReviewEntry.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = MovieContract.ReviewEntry.buildReviewUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
@@ -236,7 +233,7 @@ public class MovieProvider extends ContentProvider {
         int rowsDeleted;
 
         // this makes delete all rows return the number of rows deleted
-        if ( null == selection ) {
+        if (null == selection) {
             selection = "1";
         }
 
@@ -274,7 +271,7 @@ public class MovieProvider extends ContentProvider {
         int rowsUpdated;
 
         // this makes delete all rows return the number of rows deleted
-        if ( null == selection ) {
+        if (null == selection) {
             selection = "1";
         }
 

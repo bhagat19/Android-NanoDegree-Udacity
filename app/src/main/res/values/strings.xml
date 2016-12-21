@@ -6,7 +6,7 @@
     <string name="APIKEY">"f38b1a07ccfc6e604a89bf88d7596032"</string>
 
     <string name="title_activity_detail">Movie Detail</string>
-    <string name ="activity_settings">Sort Options</string>
+    <string name="activity_settings">Sort Options</string>
 
     <string name="pref_sort_label">Sort</string>
     <string name="pref_sort_label_popular">Popularity</string>
@@ -17,31 +17,31 @@
     <string name="pref_sort_key" translatable="false">sort</string>
     <string name="pref_sort_popular" translatable="false">popularity.desc</string>
     <string name="pref_sort_favourite" translatable="false">favourite</string>
-    <string name="pref_sort_ratings" translatable = "false">Ratings</string>
+    <string name="pref_sort_ratings" translatable="false">vote_average.desc</string>
 
 
     <!-- Strings for JSON data results !-->
-    <string name="movie_results"         translatable="false">results</string>
-    <string name="movie_id"              translatable="false">id</string>
-    <string name="movie_title"           translatable="false">title</string>
-    <string name="movie_genres"          translatable="false">genres</string>
-    <string name="movie_release_date"    translatable="false">release_date</string>
-    <string name="movie_poster_url"      translatable="false">poster_path</string>
-    <string name="movie_vote_average"    translatable="false">vote_average</string>
-    <string name="movie_overview"        translatable="false">overview</string>
-    <string name="movie_background_url"  translatable="false">backdrop_path</string>
-    <string name="poster_size"           translatable="false">w185</string>
-    <string name="background_size"       translatable="false">w780</string>
+    <string name="movie_results" translatable="false">results</string>
+    <string name="movie_id" translatable="false">id</string>
+    <string name="movie_title" translatable="false">title</string>
+    <string name="movie_genres" translatable="false">genres</string>
+    <string name="movie_release_date" translatable="false">release_date</string>
+    <string name="movie_poster_url" translatable="false">poster_path</string>
+    <string name="movie_vote_average" translatable="false">vote_average</string>
+    <string name="movie_overview" translatable="false">overview</string>
+    <string name="movie_background_url" translatable="false">backdrop_path</string>
+    <string name="poster_size" translatable="false">w185</string>
+    <string name="background_size" translatable="false">w780</string>
 
 
-    <string name="trailer_results"       translatable="false">results</string>
-    <string name="trailer_name"          translatable="false">name</string>
-    <string name="trailer_key"           translatable="false">key</string>
-    <string name="trailer_link"           translatable="false">link</string>
-    <string name="TRAILER"                  translatable="false">videos</string>
+    <string name="trailer_results" translatable="false">results</string>
+    <string name="trailer_name" translatable="false">name</string>
+    <string name="trailer_key" translatable="false">key</string>
+    <string name="trailer_link" translatable="false">link</string>
+    <string name="TRAILER" translatable="false">videos</string>
 
-    <string name="review_results"       translatable="false">results</string>
-    <string name="review_author"        translatable="false">author</string>
-    <string name="review_content"       translatable="false">content</string>
-    <string name="REVIEW"               translatable="false">reviews</string>
+    <string name="review_results" translatable="false">results</string>
+    <string name="review_author" translatable="false">author</string>
+    <string name="review_content" translatable="false">content</string>
+    <string name="REVIEW" translatable="false">reviews</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.amit.popular_moviesapp;
+package com.example.amit.popular_moviesapp.Util;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -11,7 +11,7 @@ import android.widget.ScrollView;
  */
 
 //http://stackoverflow.com/questions/3495890/how-can-i-put-a-listview-into-a-scrollview-without-it-collapsing
-    // This ScrollView allows many scrollable views inside it
+// This ScrollView allows many scrollable views inside it
 
 public class VerticalScrollView extends ScrollView {
 
@@ -30,10 +30,9 @@ public class VerticalScrollView extends ScrollView {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         final int action = ev.getAction();
-        switch (action)
-        {
+        switch (action) {
             case MotionEvent.ACTION_DOWN:
-                Log.i("VerticalScrollview", "onInterceptTouchEvent: DOWN super false" );
+                Log.i("VerticalScrollview", "onInterceptTouchEvent: DOWN super false");
                 super.onTouchEvent(ev);
                 break;
 
@@ -41,7 +40,7 @@ public class VerticalScrollView extends ScrollView {
                 return false; // redirect MotionEvents to ourself
 
             case MotionEvent.ACTION_CANCEL:
-                Log.i("VerticalScrollview", "onInterceptTouchEvent: CANCEL super false" );
+                Log.i("VerticalScrollview", "onInterceptTouchEvent: CANCEL super false");
                 super.onTouchEvent(ev);
                 break;
 
@@ -49,7 +48,9 @@ public class VerticalScrollView extends ScrollView {
                 Log.i("VerticalScrollview", "onInterceptTouchEvent: UP super false");
                 return false;
 
-            default: Log.i("VerticalScrollview", "onInterceptTouchEvent: " + action ); break;
+            default:
+                Log.i("VerticalScrollview", "onInterceptTouchEvent: " + action);
+                break;
         }
 
         return false;
@@ -58,7 +59,7 @@ public class VerticalScrollView extends ScrollView {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         super.onTouchEvent(ev);
-        Log.i("VerticalScrollview", "onTouchEvent. action: " + ev.getAction() );
+        Log.i("VerticalScrollview", "onTouchEvent. action: " + ev.getAction());
         return true;
     }
 }

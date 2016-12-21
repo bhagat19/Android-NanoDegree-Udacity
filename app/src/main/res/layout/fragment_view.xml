@@ -7,24 +7,23 @@
     android:orientation="vertical">
 
     <GridView
+        android:id="@+id/gridView"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/gridView"
-        android:numColumns="auto_fit"
         android:gravity="left"
-
-
-
         android:horizontalSpacing="2dp"
+
+
+        android:numColumns="auto_fit"
         android:verticalSpacing="2dp"/>
 
     <TextView
+        android:id="@+id/NoMoviesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/NoMoviesText"
+        android:layout_centerInParent="true"
         android:text="Oops!,No Movies To Display"
         android:visibility="invisible"
-        android:layout_centerInParent="true"
         />
 
 </LinearLayout>

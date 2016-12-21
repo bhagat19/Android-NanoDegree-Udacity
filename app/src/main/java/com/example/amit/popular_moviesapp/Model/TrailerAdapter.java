@@ -1,4 +1,4 @@
-package com.example.amit.popular_moviesapp;
+package com.example.amit.popular_moviesapp.Model;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.amit.popular_moviesapp.R;
 
 import java.util.ArrayList;
 
@@ -31,7 +33,7 @@ public class TrailerAdapter extends ArrayAdapter<TrailerItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
         viewHolder holder;
 
-        Log.v(LOG_TAG,"Inside Trailer :");
+        Log.v(LOG_TAG, "Inside Trailer :");
 
         LayoutInflater inflater = LayoutInflater.from(context);
         if (convertView == null) {

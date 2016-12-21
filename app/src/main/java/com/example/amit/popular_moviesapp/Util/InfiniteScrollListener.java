@@ -1,11 +1,11 @@
-package com.example.amit.popular_moviesapp;
+package com.example.amit.popular_moviesapp.Util;
 
 import android.widget.AbsListView;
 
 /**
  * Created by amit on 28-04-2016.
  */
-public abstract class InfiniteScrollListener implements AbsListView.OnScrollListener{
+public abstract class InfiniteScrollListener implements AbsListView.OnScrollListener {
 
     private int bufferItemCount = 10;
     private int currentPage = 0;
@@ -24,12 +24,12 @@ public abstract class InfiniteScrollListener implements AbsListView.OnScrollList
     }
 
     @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
-    {
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         if (totalItemCount < itemCount) {
             this.itemCount = totalItemCount;
             if (totalItemCount == 0) {
-                this.isLoading = true; }
+                this.isLoading = true;
+            }
         }
 
         if (isLoading && (totalItemCount > itemCount)) {
@@ -38,7 +38,7 @@ public abstract class InfiniteScrollListener implements AbsListView.OnScrollList
             currentPage++;
         }
 
-        if (!isLoading && (totalItemCount - visibleItemCount)<=(firstVisibleItem + bufferItemCount)) {
+        if (!isLoading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + bufferItemCount)) {
             loadMore(currentPage + 1, totalItemCount);
             isLoading = true;
         }
